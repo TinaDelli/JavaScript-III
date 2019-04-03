@@ -51,13 +51,12 @@ CharacterStats.prototype.takeDamage = function() {
 */
 
 function Humanoid (humAttrs) {
-  GameObject.call(this, humAttrs);
   CharacterStats.call(this, humAttrs);
   this.team = humAttrs.team;
   this.weapons = humAttrs.weapons;
   this.language = humAttrs.language;
 }
-Humanoid.prototype = Object.create(GameObject.prototype);
+
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 
 Humanoid.prototype.greet = function() {
@@ -164,13 +163,10 @@ Humanoid.prototype.greet = function() {
   
 
   function Villian (vilAttrs) {
-    GameObject.call(this, vilAttrs);
-    CharacterStats.call(this, vilAttrs);
     Humanoid.call(this, vilAttrs);
    
   }
-Villian.prototype = Object.create(GameObject.prototype);
-Villian.prototype = Object.create(CharacterStats.prototype);
+
 Villian.prototype = Object.create(Humanoid.prototype);
 
 Villian.prototype.vilHpCount = healthPointObj;
@@ -183,13 +179,10 @@ Villian.prototype.vilDestroy = function() {
 
 
 function Hero (heroAttrs) {
-  GameObject.call(this, heroAttrs);
-  CharacterStats.call(this, heroAttrs);
   Humanoid.call(this, heroAttrs);
  
 }
-Hero.prototype = Object.create(GameObject.prototype);
-Hero.prototype = Object.create(CharacterStats.prototype);
+
 Hero.prototype = Object.create(Humanoid.prototype);
 
 Hero.prototype.heroHpCount = healthPointObj;
