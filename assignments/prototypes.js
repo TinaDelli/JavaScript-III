@@ -136,7 +136,111 @@ Humanoid.prototype.greet = function() {
 
 
   // Stretch task: 
-  // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function. 
-
+  // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
-  // * Create two new objects, one a villain and one a hero and fight it out with methods!
+  // * Create two new objects, one a villain and one a hero and fight it out with methods! 
+  const hpCounter = () => {
+    let count = 0;
+    const countObj = {
+      
+      increment:function (){
+      return function(){
+        return count += 1;
+        }
+      },
+    
+      decrement: function(){
+        return function(){
+          return count -= 1;
+        }
+      }
+    }
+  
+    return countObj;
+  };
+  let healthPointObj = hpCounter();
+  let increment=healthPointObj.increment();
+  let decrement=healthPointObj.decrement();
+  
+
+  function Villian (vilAttrs) {
+    GameObject.call(this, vilAttrs);
+    CharacterStats.call(this, vilAttrs);
+    Humanoid.call(this, vilAttrs);
+   
+  }
+Villian.prototype = Object.create(GameObject.prototype);
+Villian.prototype = Object.create(CharacterStats.prototype);
+Villian.prototype = Object.create(Humanoid.prototype);
+
+Villian.prototype.vilHpCount = healthPointObj;
+Villian.prototype.vilDestroy = function() {
+  if (this.healthPoints <= 0) {
+    return `${this.name} has conquered the world! Muhahahaha`;
+  } else
+  return `You have not seen the last of ${this.name} I will return!!`;
+};
+
+
+function Hero (heroAttrs) {
+  GameObject.call(this, heroAttrs);
+  CharacterStats.call(this, heroAttrs);
+  Humanoid.call(this, heroAttrs);
+ 
+}
+Hero.prototype = Object.create(GameObject.prototype);
+Hero.prototype = Object.create(CharacterStats.prototype);
+Hero.prototype = Object.create(Humanoid.prototype);
+
+Hero.prototype.heroHpCount = healthPointObj;
+Hero.prototype.heroDestroy = function() {
+  if (this.healthPoints <= 0) {
+    return `${this.name} has saved the world! We can all sleep better at night.`
+  } else {
+  return `${this.name} may be defeated but we can try again!`;
+};
+};
+ 
+
+const hero = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 1,
+    width: 2,
+    height: 5,
+  },
+  healthPoints: 20,
+  name: 'Merlin',
+  team: 'Albion',
+  weapons: [
+    'Magic',
+    'Sword',
+  ],
+  language: 'Common Tongue',
+});
+
+const villian = new Villian({
+  createdAt: new Date(),
+  dimensions: {
+    length: 3,
+    width: 5,
+    height: 9,
+  },
+  healthPoints: 30,
+  name: 'Morganna',
+  team: 'Dark Magic',
+  weapons: [
+    'Dark Magic',
+    'Sword',
+  ],
+  language: 'Proper Tongue',
+});
+
+console.log(hero.takeDamage());
+console.log(villian.takeDamage());
+console.log(hero.takeDamage());
+console.log(hero.takeDamage());
+console.log(villian.takeDamage());
+console.log(villian.takeDamage());
+console.log(villian.vilDestroy());
+console.log(villian.destroy());
